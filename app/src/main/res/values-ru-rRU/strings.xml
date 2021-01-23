@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Заметки</string>
+    <string name="button_add_text">Добавить</string>
+    <string name="button_delete_text">Удалить</string>
+    <string name="heading_text">Заголовок</string>
+    <string name="body_text">Тело</string>
+</resources>
