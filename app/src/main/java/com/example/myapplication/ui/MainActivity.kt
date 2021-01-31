@@ -1,13 +1,12 @@
 package com.example.myapplication.ui
 
 import android.os.Bundle
-import android.renderscript.ScriptGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import com.example.myapplication.R
+import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.viewmodel.MainViewModel
 import com.example.myapplication.databinding.ActivityMainBinding
+import com.example.myapplication.model.Note
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,12 +20,22 @@ class MainActivity : AppCompatActivity() {
         setContentView(ui.root)
 
         setSupportActionBar(ui.toolbar)
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-        adapter = MainAdapter()
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        adapter = MainAdapter(object : OnItemClickListener {
+            override fun onItemClick(note: Note) {
+                openNoteScreen(note)
+            }
+        })
         ui.mainRecycler.adapter = adapter
 
         viewModel.viewState().observe(this, Observer<MainViewState> { state ->
-            state?.let { adapter.notes = state.notes } ?: throw Exception()
+            state?.let { adapter.notes = state.notes }
         })
+
+        ui.fab.setOnClickListener{openNoteScreen()}
+    }
+
+    private fun openNoteScreen(note: Note? = null) {
+        startActivity(NoteActivity.getStartIntent(this, note))
     }
 }

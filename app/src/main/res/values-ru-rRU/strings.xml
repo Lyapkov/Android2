@@ -4,4 +4,5 @@
     <string name="button_delete_text">Удалить</string>
     <string name="heading_text">Заголовок</string>
     <string name="body_text">Тело</string>
+    <string name="new_note_title">Новая заметка</string>
 </resources>

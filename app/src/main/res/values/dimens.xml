@@ -4,4 +4,7 @@
     <dimen name="card_padding">4dp</dimen>
     <dimen name="text_padding">8dp</dimen>
     <dimen name="button_padding">4dp</dimen>
+    <dimen name="linear_note_padding">16dp</dimen>
+    <dimen name="edit_text_note_margin_top">16dp</dimen>
+    <dimen name="fab_margin">10dp</dimen>
 </resources>
