@@ -1,4 +1,4 @@
-package com.example.myapplication.ui
+package com.example.myapplication.ui.activity
 
 import android.content.Context
 import android.content.Intent
@@ -11,8 +11,10 @@ import android.view.MenuItem
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityNoteBinding
-import com.example.myapplication.model.Color
 import com.example.myapplication.model.Note
+import com.example.myapplication.ui.format
+import com.example.myapplication.ui.getColorInt
+import com.example.myapplication.ui.viewstate.NoteViewState
 import com.example.myapplication.viewmodel.NoteViewModel
 import kotlinx.android.synthetic.main.activity_note.*
 import java.util.*
@@ -32,8 +34,9 @@ class NoteActivity : BaseActivity<Note?, NoteViewState>() {
     }
 
     private var note: Note? = null
-    private lateinit var ui: ActivityNoteBinding
-    override val viewModel: NoteViewModel by lazy { ViewModelProvider(this).get(NoteViewModel::class.java)}
+    override val ui: ActivityNoteBinding by lazy { ActivityNoteBinding.inflate(layoutInflater) }
+    override val viewModel: NoteViewModel
+            by lazy { ViewModelProvider(this).get(NoteViewModel::class.java) }
     override val layoutRes: Int = R.layout.activity_note
     private val textChangeListener = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -51,8 +54,6 @@ class NoteActivity : BaseActivity<Note?, NoteViewState>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ui = ActivityNoteBinding.inflate(layoutInflater)
-
         val noteId = intent.getStringExtra(EXTRA_NOTE)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -61,30 +62,21 @@ class NoteActivity : BaseActivity<Note?, NoteViewState>() {
             viewModel.loadNote(it)
         }
 
-        if (noteId == null ) supportActionBar?.title = getString(R.string.new_note_title)
+        if (noteId == null) supportActionBar?.title = getString(R.string.new_note_title)
 
         titleEt.addTextChangedListener(textChangeListener)
         bodyEt.addTextChangedListener(textChangeListener)
     }
 
     private fun initView() {
-        ui.titleEt.setText(note?.title ?: "")
-        ui.bodyEt.setText(note?.note ?: "")
-
-        val color = when (note?.color) {
-            Color.WHITE -> R.color.color_white
-            Color.VIOLET -> R.color.color_violet
-            Color.YELLOW -> R.color.color_yellow
-            Color.RED -> R.color.color_red
-            Color.PINK -> R.color.color_pink
-            Color.GREEN -> R.color.color_green
-            Color.BLUE -> R.color.color_blue
-            else -> R.color.color_white
+        note?.run {
+            toolbar.setBackgroundColor(color.getColorInt(this@NoteActivity))
+            titleEt.setText(title)
+            bodyEt.setText(note)
+            supportActionBar?.title = lastChanged.format()
         }
-
-        ui.toolbar.setBackgroundColor(resources.getColor(color))
-        ui.titleEt.addTextChangedListener(textChangeListener)
-        ui.bodyEt.addTextChangedListener(textChangeListener)
+        titleEt.addTextChangedListener(textChangeListener)
+        bodyEt.addTextChangedListener(textChangeListener)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
@@ -96,14 +88,14 @@ class NoteActivity : BaseActivity<Note?, NoteViewState>() {
     }
 
     private fun triggerSaveNote() {
-        if (ui.titleEt.text == null || ui.titleEt.text!!.length < 3) return
+        if (titleEt.text == null || titleEt.text!!.length < 3) return
 
         Handler(Looper.getMainLooper()).postDelayed({
             note = note?.copy(
-                    title = ui.titleEt.text.toString(),
-                    note = ui.bodyEt.text.toString(),
+                    title = titleEt.text.toString(),
+                    note = bodyEt.text.toString(),
                     lastChanged = Date()
-            ) ?: Note.createNewNote(ui.titleEt.text.toString(), ui.bodyEt.text.toString())
+            ) ?: Note.createNewNote(titleEt.text.toString(), bodyEt.text.toString())
 
             if (note != null) viewModel.saveChanges(note!!)
         }, SAVE_DELAY)
