@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.model.Note
@@ -17,11 +16,12 @@ import com.example.myapplication.ui.viewstate.MainViewState
 import com.example.myapplication.viewmodel.MainViewModel
 import com.firebase.ui.auth.AuthUI
 import kotlinx.android.synthetic.main.activity_main.*
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity<List<Note>?, MainViewState>(), LogoutDialog.LogoutListener {
 
     override val viewModel: MainViewModel
-            by lazy { ViewModelProvider(this).get(MainViewModel::class.java) }
+            by viewModel()
     override val ui: ActivityMainBinding
             by lazy { ActivityMainBinding.inflate(layoutInflater) }
     override val layoutRes: Int = com.example.myapplication.R.layout.activity_main

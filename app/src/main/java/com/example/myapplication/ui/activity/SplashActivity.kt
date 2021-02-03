@@ -1,26 +1,29 @@
 package com.example.myapplication.ui.activity
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivitySplashBinding
 import com.example.myapplication.model.NoAuthException
+import com.example.myapplication.model.providers.FireStoreProvider
 import com.example.myapplication.ui.viewstate.SplashViewState
 import com.example.myapplication.viewmodel.SplashViewModel
 import com.firebase.ui.auth.AuthUI
+import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 
 private const val RC_SIGN_IN = 42
 private const val START_DELAY = 1000L
 
 class SplashActivity : BaseActivity<Boolean?, SplashViewState>() {
 
-    override val viewModel: SplashViewModel
-            by lazy { ViewModelProvider(this).get(SplashViewModel::class.java) }
+    override val viewModel: SplashViewModel by viewModel()
+
+    val provider: FireStoreProvider by inject()
+
     override val ui: ActivitySplashBinding
             by lazy { ActivitySplashBinding.inflate(layoutInflater) }
     override val layoutRes: Int = R.layout.activity_splash

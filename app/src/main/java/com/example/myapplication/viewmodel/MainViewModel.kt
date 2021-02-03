@@ -6,7 +6,7 @@ import com.example.myapplication.model.NoteResult
 import com.example.myapplication.model.Repository
 import com.example.myapplication.ui.viewstate.MainViewState
 
-class MainViewModel(val repository: Repository = Repository) :
+class MainViewModel(val repository: Repository) :
         BaseViewModel<List<Note>?, MainViewState>() {
     private val notesObserver = object : Observer<NoteResult> {
         override fun onChanged(t: NoteResult?) {

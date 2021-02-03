@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import com.example.myapplication.R
 import com.example.myapplication.ui.viewstate.BaseViewState
+import com.example.myapplication.ui.viewstate.NoteViewState
 import com.example.myapplication.viewmodel.BaseViewModel
+import com.example.myapplication.viewmodel.NoteViewModel
 import com.google.android.material.snackbar.Snackbar
 
 abstract class BaseActivity<T, VS : BaseViewState<T>> : AppCompatActivity() {
