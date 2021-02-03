@@ -15,7 +15,6 @@ import com.example.myapplication.ui.OnItemClickListener
 import com.example.myapplication.ui.viewstate.MainViewState
 import com.example.myapplication.viewmodel.MainViewModel
 import com.firebase.ui.auth.AuthUI
-import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity<List<Note>?, MainViewState>(), LogoutDialog.LogoutListener {
@@ -29,16 +28,16 @@ class MainActivity : BaseActivity<List<Note>?, MainViewState>(), LogoutDialog.Lo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(ui.toolbar)
 
         adapter = MainAdapter(object : OnItemClickListener {
             override fun onItemClick(note: Note) {
                 openNoteScreen(note)
             }
         })
-        mainRecycler.adapter = adapter
+        ui.mainRecycler.adapter = adapter
 
-        fab.setOnClickListener { openNoteScreen() }
+        ui.fab.setOnClickListener { openNoteScreen() }
     }
 
     private fun openNoteScreen(note: Note? = null) {
