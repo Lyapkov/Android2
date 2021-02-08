@@ -1,11 +1,10 @@
 package com.example.myapplication.viewmodel
 
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import com.example.myapplication.model.Note
 import com.example.myapplication.model.NoteResult
 import com.example.myapplication.model.Repository
-import com.example.myapplication.ui.NoteViewState
+import com.example.myapplication.ui.viewstate.NoteViewState
 
 class NoteViewModel(val repository: Repository = Repository) : BaseViewModel<Note?, NoteViewState>() {
 

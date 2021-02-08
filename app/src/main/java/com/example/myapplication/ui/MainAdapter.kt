@@ -10,16 +10,16 @@ import com.example.myapplication.model.Color
 import com.example.myapplication.model.Note
 import com.example.myapplication.ui.MainAdapter.NoteViewHolder
 
-interface OnItemClickListener{
+interface OnItemClickListener {
     fun onItemClick(note: Note)
 }
 
-class MainAdapter(private val onItemClickListener: OnItemClickListener): RecyclerView.Adapter<NoteViewHolder>() {
+class MainAdapter(private val onItemClickListener: OnItemClickListener) : RecyclerView.Adapter<NoteViewHolder>() {
     var notes: List<Note> = listOf()
-    set(value) {
-        field = value
-        notifyDataSetChanged()
-    }
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -33,7 +33,7 @@ class MainAdapter(private val onItemClickListener: OnItemClickListener): Recycle
 
     override fun getItemCount(): Int = notes.size
 
-    inner class NoteViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    inner class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val title = itemView.findViewById<TextView>(R.id.title)
         private val body = itemView.findViewById<TextView>(R.id.body)
 
@@ -52,7 +52,7 @@ class MainAdapter(private val onItemClickListener: OnItemClickListener): Recycle
             }
 
             itemView.setBackgroundResource(color)
-            itemView.setOnClickListener{onItemClickListener.onItemClick(note)}
+            itemView.setOnClickListener { onItemClickListener.onItemClick(note) }
         }
     }
 }
