@@ -31,11 +31,10 @@ class FireStoreProvider(
             MutableLiveData<NoteResult>().apply {
                 try {
                     getUserNotesCollections().addSnapshotListener { snapshot, error ->
-                        value = error?.let { NoteResult.Error(it) }
-                                ?: snapshot?.let { snapshotDocument ->
-                                    NoteResult.Success(snapshotDocument.documents.map {
-                                        it.toObject(Note::class.java)
-                                    })
+                        value = error?.let { NoteResult.Error(error) }
+                                ?: snapshot?.let { it ->
+                                    val notes = it.documents.map { it.toObject(Note::class.java) }
+                                    NoteResult.Success(notes)
                                 }
                     }
                 } catch (e: Throwable) {

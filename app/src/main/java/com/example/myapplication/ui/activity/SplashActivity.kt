@@ -71,9 +71,9 @@ class SplashActivity : BaseActivity<Boolean?, SplashViewState>() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == RC_SIGN_IN && resultCode != Activity.RESULT_OK) {
+        if (requestCode == RC_SIGN_IN && resultCode != Activity.RESULT_OK)
             finish()
-        } else
+        else
             super.onActivityResult(requestCode, resultCode, data)
     }
 }
