@@ -21,12 +21,14 @@ import com.example.myapplication.ui.viewstate.NoteViewState
 import com.example.myapplication.viewmodel.NoteViewModel
 import kotlinx.android.synthetic.main.activity_note.*
 import kotlinx.android.synthetic.main.item_note.*
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
 
-private const val SAVE_DELAY = 2000L
+private const val SAVE_DELAY = 2L
 
-class NoteActivity : BaseActivity<NoteViewState.Data, NoteViewState>() {
+class NoteActivity : BaseActivity<NoteViewState.Data>() {
 
     companion object {
         const val EXTRA_NOTE = "NoteActivity.extra.NOTE"
@@ -125,7 +127,8 @@ class NoteActivity : BaseActivity<NoteViewState.Data, NoteViewState>() {
     private fun triggerSaveNote() {
         if (titleEt.text == null || titleEt.text!!.length < 3) return
 
-        Handler(Looper.getMainLooper()).postDelayed({
+        launch {
+            delay(SAVE_DELAY)
             note = note?.copy(
                     title = titleEt.text.toString(),
                     note = bodyEt.text.toString(),
@@ -134,7 +137,7 @@ class NoteActivity : BaseActivity<NoteViewState.Data, NoteViewState>() {
             ) ?: Note.createNewNote(titleEt.text.toString(), bodyEt.text.toString())
 
             if (note != null) viewModel.saveChanges(note!!)
-        }, SAVE_DELAY)
+        }
     }
 
     override fun renderData(data: NoteViewState.Data) {
