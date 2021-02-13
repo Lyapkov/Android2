@@ -4,11 +4,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
+import com.example.myapplication.databinding.ItemNoteBinding
 import com.example.myapplication.model.Color
 import com.example.myapplication.model.Note
 import com.example.myapplication.ui.MainAdapter.NoteViewHolder
+import com.example.myapplication.ui.activity.MainActivity
 
 interface OnItemClickListener {
     fun onItemClick(note: Note)
@@ -37,6 +40,8 @@ class MainAdapter(private val onItemClickListener: OnItemClickListener) : Recycl
         private val title = itemView.findViewById<TextView>(R.id.title)
         private val body = itemView.findViewById<TextView>(R.id.body)
 
+        private val ui: ItemNoteBinding = ItemNoteBinding.bind(itemView)
+
         fun bind(note: Note) {
             title.text = note.title
             body.text = note.note
@@ -51,7 +56,7 @@ class MainAdapter(private val onItemClickListener: OnItemClickListener) : Recycl
                 Color.BLUE -> R.color.color_blue
             }
 
-            itemView.setBackgroundResource(color)
+            ui.container.setCardBackgroundColor(note.color.getColorInt(itemView.context))
             itemView.setOnClickListener { onItemClickListener.onItemClick(note) }
         }
     }
